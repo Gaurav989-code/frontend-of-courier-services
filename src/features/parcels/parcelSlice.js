@@ -2,38 +2,39 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import { axiosInstance } from "@/services/axiosInstance";
 
-const getErrorMessage = (error) =>
-  error?.response.data?.message || error?.message || "Something webt wrong";
+const getErrorMessage = (error) => {
+  error?.response.data?.message || error?.message || "Something went wrong ";
+};
 
 export const trackParcelThunk = createAsyncThunk(
   "parcels/track",
-  async (trackingId, thunkAPI) => {
+  async (trackingId, thunkApi) => {
     try {
       const { data } = await axiosInstance.get(`/parcels/track/${trackingId}`);
-      toast.success("Parcel found");
+      toast.success("parcel found");
       return data;
     } catch (error) {
       const message = getErrorMessage(error);
       toast.error(message);
-      return thunkAPI.rejectWithValue(message);
+      return thunkApi.rejectWithValue(message);
     }
   },
 );
 
 export const calculateCostThunk = createAsyncThunk(
-  "parcels/calculateCost",
-  async (payload, thunkAPI) => {
+  "parcels/calculateConst",
+  async (trackingId, thunkApi) => {
     try {
-      const { data } = await axiosInstance.post(
+      const { data } = await axiosInstance.get(
         `/parcels/calculate-cost`,
         payload,
       );
-      toast.success("Cost calculated");
+      toast.success("cost calculated successfully");
       return data;
     } catch (error) {
       const message = getErrorMessage(error);
       toast.error(message);
-      return thunkAPI.rejectWithValue(message);
+      return thunkApi.rejectWithValue(message);
     }
   },
 );
@@ -77,17 +78,17 @@ const parcelSlice = createSlice({
         state.trackError = action.payload || "Failed to track parcel";
       })
       .addCase(calculateCostThunk.pending, (state) => {
-        state.costQuote = null;
-        state.costError = null;
         state.costLoading = true;
+        state.costError = null;
+        state.costQuote = null;
       })
       .addCase(calculateCostThunk.fulfilled, (state, action) => {
+        state.costLoading = false;
         state.costQuote = action.payload;
-        state.costLoading = false;
       })
-      .addCase(calculateCostThunk.rejected, (state) => {
-        state.costError = action.payload || "Failed to calculate cost";
+      .addCase(calculateCostThunk.rejected, (state, action) => {
         state.costLoading = false;
+        state.costError = action.payload || "Failed to calculate cost";
       });
   },
 });
