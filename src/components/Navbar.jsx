@@ -41,7 +41,7 @@ const Navbar = () => {
             <Package className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="font-display text-xl font-bold text-foreground">
-            Swift<span className="text-accent">Pak</span>
+            Swift<span className="text-accent">India</span>
           </span>
         </Link>
 
