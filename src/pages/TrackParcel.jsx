@@ -79,7 +79,7 @@ const TrackParcel = () => {
             className="max-w-lg mx-auto flex gap-2 mb-12"
           >
             <Input
-              placeholder="Enter Tracking ID (e.g. PK-CRR-123456)"
+              placeholder="Enter Tracking ID (e.g. IND-685935117) "
               value={trackingId}
               onChange={(e) => setTrackingId(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleTrack()}
@@ -149,7 +149,7 @@ const TrackParcel = () => {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     {[
                       ["Tracking ID", parcel.trackingID],
-                      ["Shipment Type", parcel.shimpentType],
+                      ["Shipment Type", parcel.shipmentType],
                       ["Delivery Type", parcel.deliveryType],
                       ["Category", parcel.parcelCategory],
                       ["Weight", `${parcel.Weight} kg`],

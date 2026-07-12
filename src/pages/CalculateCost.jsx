@@ -14,25 +14,26 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { calculateCostThunk } from "@/features/parcels/parcelSlice";
 import {
   getDestinationOptionsForShipmentType,
   isValidDestinationForShipmentType,
-  PAKISTANI_CITY_OPTIONS,
+  INDIAN_CITY_OPTIONS,
 } from "@/lib/locationData";
+import { calculateCostThunk } from "../features/parcels/parcelSlice";
 
 const categories = [
-  { value: "document", label: "Document" },
+  { value: "documents", label: "Document" },
   { value: "electronics", label: "Electronics" },
   { value: "fragile", label: "Fragile" },
+  { value: "medicine", label: "Medicine" },
   { value: "clothing", label: "Clothing" },
   { value: "food", label: "Food" },
-  { value: "medicine", label: "Medicine" },
   { value: "cosmetics", label: "Cosmetics" },
   { value: "books", label: "Books" },
-  { value: "small_package", label: "Small Package" },
-  { value: "large_package", label: "Large Package" },
+  { value: "small_packages", label: "Small Package" },
+  { value: "large_packages", label: "Large Package" },
 ];
+
 
 const CalculateCostPage = () => {
   const [form, setForm] = useState({
@@ -46,7 +47,7 @@ const CalculateCostPage = () => {
 
   const dispatch = useDispatch();
   const { costQuote: result, costLoading: loading } = useSelector(
-    (state) => state.parcels,
+    (state) => state.parcels || {},
   );
 
   const { toast } = useToast();
@@ -71,6 +72,8 @@ const CalculateCostPage = () => {
         ...form,
         weight: Number(form.weight),
       };
+
+      console.log(form);
 
       await dispatch(calculateCostThunk(payload)).unwrap();
     } catch (error) {
@@ -114,52 +117,6 @@ const CalculateCostPage = () => {
                 </CardHeader>
 
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Origin City</Label>
-                      <Select
-                        value={form.originCity}
-                        onValueChange={(v) =>
-                          setForm({ ...form, originCity: v })
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select City" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          {PAKISTANI_CITY_OPTIONS.map((p) => (
-                            <SelectItem key={p.value} value={p.value}>
-                              {p.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>Destination City</Label>
-                      <Select
-                        value={form.destinationCity}
-                        onValueChange={(v) =>
-                          setForm({ ...form, destinationCity: v })
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select City" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          {destinationOptions.map((p) => (
-                            <SelectItem key={p.value} value={p.value}>
-                              {p.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
                   <div className="space-y-2">
                     <Label>Shipment Type</Label>
                     <Select
@@ -191,6 +148,53 @@ const CalculateCostPage = () => {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Origin City</Label>
+                      <Select
+                        value={form.originCity}
+                        onValueChange={(v) =>
+                          setForm({ ...form, originCity: v })
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select City" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {INDIAN_CITY_OPTIONS.map((p) => (
+                            <SelectItem key={p.value} value={p.value}>
+                              {p.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Destination City</Label>
+                      <Select
+                        value={form.destinationCity}
+                        onValueChange={(v) =>
+                          setForm({ ...form, destinationCity: v })
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select City" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {destinationOptions.map((p) => (
+                            <SelectItem key={p.value} value={p.value}>
+                              {p.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
                     <Label>Parcel Category</Label>
                     <Select
@@ -267,7 +271,9 @@ const CalculateCostPage = () => {
               {result ? (
                 <Card className="border-border/50 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="fonde">Cost Estimate</CardTitle>
+                    <CardTitle className="font-display">
+                      Cost Estimate
+                    </CardTitle>
                   </CardHeader>
 
                   <CardContent className="space-y-4">

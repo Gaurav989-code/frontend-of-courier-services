@@ -203,14 +203,14 @@ const Index = () => {
                 <div className="absolute bottom-6 left-4 flex flex-col items-center">
                   <MapPin className="h-8 w-8 text-primary" />
                   <span className="text-xs font-medium text-primary mt-1">
-                    Lahore
+                    Mumbai
                   </span>
                 </div>
                 {/* Destination pin */}
                 <div className="absolute bottom-6 right-4 flex flex-col items-center">
                   <MapPin className="h-8 w-8 text-accent" />
                   <span className="text-xs font-medium text-accent mt-1">
-                    Karachi
+                    Delhi
                   </span>
                 </div>
                 {/* Moving parcel */}
