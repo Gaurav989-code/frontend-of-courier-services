@@ -1,24 +1,25 @@
-export const PAKISTANI_CITIES = [
-  "Karachi",
-  "Lahore",
-  "Islamabad",
-  "Rawalpindi",
-  "Faisalabad",
-  "Multan",
-  "Peshawar",
-  "Quetta",
-  "Sialkot",
-  "Gujranwala",
+// Major Indian cities representing a balanced list of tier-1 and tier-2 logistics hubs
+export const INDIAN_CITIES = [
+  "Mumbai",
+  "Delhi",
+  "Bengaluru",
   "Hyderabad",
-  "Abbottabad",
-  "Bahawalpur",
-  "Sukkur",
-  "Mardan",
+  "Ahmedabad",
+  "Chennai",
+  "Kolkata",
+  "Pune",
+  "Jaipur",
+  "Surat",
+  "Lucknow",
+  "Kanpur",
+  "Nagpur",
+  "Indore",
+  "Patna",
 ];
 
 const toOption = (value) => ({ value, label: value });
 
-export const PAKISTANI_CITY_OPTIONS = PAKISTANI_CITIES.map(toOption);
+export const INDIAN_CITY_OPTIONS = INDIAN_CITIES.map(toOption);
 
 export const INTERNATIONAL_COUNTRIES_WITH_CAPITALS = [
   { country: "Afghanistan", capital: "Kabul" },
@@ -26,9 +27,9 @@ export const INTERNATIONAL_COUNTRIES_WITH_CAPITALS = [
   { country: "Bangladesh", capital: "Dhaka" },
   { country: "China", capital: "Beijing" },
   { country: "Germany", capital: "Berlin" },
-  { country: "India", capital: "New Delhi" },
   { country: "Iran", capital: "Tehran" },
   { country: "Iraq", capital: "Baghdad" },
+  { country: "Pakistan", capital: "Karachi" },
   { country: "Japan", capital: "Tokyo" },
   { country: "Kuwait", capital: "Kuwait City" },
   { country: "Malaysia", capital: "Kuala Lumpur" },
@@ -44,19 +45,13 @@ export const INTERNATIONAL_COUNTRIES_WITH_CAPITALS = [
   { country: "United States", capital: "Washington, D.C." },
 ];
 
-export const INTERNATIONAL_DESTINATION_OPTIONS =
-  INTERNATIONAL_COUNTRIES_WITH_CAPITALS.map(({ country, capital }) =>
-    toOption(`${country}, ${capital}`)
-  );
+export const INTERNATIONAL_DESTINATION_OPTIONS = INTERNATIONAL_COUNTRIES_WITH_CAPITALS.map(
+  ({ country, capital }) => toOption(`${country}, ${capital}`)
+);
 
 export const getDestinationOptionsForShipmentType = (shipmentType) =>
-  shipmentType === "international"
-    ? INTERNATIONAL_DESTINATION_OPTIONS
-    : PAKISTANI_CITY_OPTIONS;
+  shipmentType === "international" ? INTERNATIONAL_DESTINATION_OPTIONS : INDIAN_CITY_OPTIONS;
 
 export const isValidDestinationForShipmentType = (shipmentType, destination) =>
   !destination ||
-  getDestinationOptionsForShipmentType(shipmentType).some(
-    (o) => o.value === destination
-  );
-
+  getDestinationOptionsForShipmentType(shipmentType).some((o) => o.value === destination);
